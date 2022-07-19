@@ -1,3 +1,32 @@
+<script setup>
+import { ref, computed } from "vue";
+import axios from "axios";
+import orderBy from "lodash/orderby";
+
+// fetching characters
+const characters = ref([]);
+const loadingState = ref(null);
+function fetchAllCharacters() {
+  loadingState.value = "loading";
+  axios.get("https://rickandmortyapi.com/api/character").then((response) => {
+    setTimeout(() => {
+      loadingState.value = "success";
+      characters.value = response.data.results;
+    }, 1000);
+  });
+}
+fetchAllCharacters();
+
+// sorting/ordering characters
+const orderKey = ref("id");
+const charactersOrdered = computed(() =>
+  orderBy(characters.value, orderKey.value)
+);
+function setOrderKey(key) {
+  orderKey.value = key;
+}
+</script>
+
 <template>
   <div>
     <div class="border-b-2 pb-4 border-gray-300 text-center">
@@ -34,46 +63,6 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { ref } from "vue";
-const characters = ref([]);
-const loadingState = ref(null);
-function fetchAllCharacters() {
-  loadingState.value = "loading";
-  axios.get("https://rickandmortyapi.com/api/character").then((response) => {
-    setTimeout(() => {
-      loadingState.value = "success";
-      characters.value = response.data.results;
-    }, 1000);
-  });
-}
-</script>
-
-<script>
-import axios from "axios";
-import orderBy from "lodash/orderby";
-export default {
-  data() {
-    return {
-      orderKey: "id",
-    };
-  },
-  computed: {
-    charactersOrdered() {
-      return orderBy(this.characters, this.orderKey);
-    },
-  },
-  methods: {
-    setOrderKey(key) {
-      this.orderKey = key;
-    },
-  },
-  created() {
-    this.fetchAllCharacters();
-  },
-};
-</script>
 
 <style scoped>
 .btn {
