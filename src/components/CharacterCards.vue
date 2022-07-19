@@ -35,14 +35,43 @@
   </div>
 </template>
 
+<script setup>
+import { ref } from "vue";
+const characters = ref([]);
+const loadingState = ref(null);
+function fetchAllCharacters() {
+  loadingState.value = "loading";
+  axios.get("https://rickandmortyapi.com/api/character").then((response) => {
+    setTimeout(() => {
+      loadingState.value = "success";
+      characters.value = response.data.results;
+    }, 1000);
+  });
+}
+</script>
+
 <script>
 import axios from "axios";
 import orderBy from "lodash/orderby";
 export default {
+  setup() {
+    const characters = ref([]);
+    const loadingState = ref(null);
+    function fetchAllCharacters() {
+      loadingState.value = "loading";
+      axios
+        .get("https://rickandmortyapi.com/api/character")
+        .then((response) => {
+          setTimeout(() => {
+            loadingState.value = "success";
+            characters.value = response.data.results;
+          }, 1000);
+        });
+    }
+    return { characters, loadingState, fetchAllCharacters };
+  },
   data() {
     return {
-      characters: [],
-      loadingState: null,
       orderKey: "id",
     };
   },
@@ -54,17 +83,6 @@ export default {
   methods: {
     setOrderKey(key) {
       this.orderKey = key;
-    },
-    fetchAllCharacters() {
-      this.loadingState = "loading";
-      axios
-        .get("https://rickandmortyapi.com/api/character")
-        .then((response) => {
-          setTimeout(() => {
-            this.loadingState = "success";
-            this.characters = response.data.results;
-          }, 1000);
-        });
     },
   },
   created() {
