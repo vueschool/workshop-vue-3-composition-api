@@ -52,7 +52,12 @@ function setOrderKey(key) {
       >
         <div class="card-inner">
           <div class="image">
-            <img :src="character.image" />
+            <img
+              :src="character.image"
+              class="bg-gray-200"
+              height="300"
+              width="300"
+            />
           </div>
           <div class="content text-center mt-5">
             <span class="header text-xl">{{ character.name }}</span>
