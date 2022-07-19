@@ -2,6 +2,11 @@
 import { ref, computed } from "vue";
 import orderBy from "lodash/orderby";
 import { useFetchResource } from "@/composables/useFetchResource";
+import { useGlobalEvent } from "../composables/useGlobalEvent";
+
+useGlobalEvent("keypress", () => {
+  characters.value.shift();
+});
 
 // fetching characters
 const {
