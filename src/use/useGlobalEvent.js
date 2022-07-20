@@ -1,4 +1,3 @@
-import { ref } from "vue";
 import { onBeforeUnmount, onMounted } from "vue";
 
 /**
@@ -8,12 +7,11 @@ import { onBeforeUnmount, onMounted } from "vue";
  * @returns
  */
 export function useGlobalEvent(event, callback) {
-  const listener = ref(null);
   function addListener() {
-    listener.value = window.addEventListener(event, callback);
+    window.addEventListener(event, callback);
   }
   function removeListener() {
-    window.removeEventListener(event, listener.value);
+    window.removeEventListener(event, callback);
   }
 
   onMounted(addListener);
