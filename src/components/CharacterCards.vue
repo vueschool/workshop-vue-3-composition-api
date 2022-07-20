@@ -55,29 +55,29 @@ export default {
       return orderBy(this.characters, this.orderKey);
     },
   },
-  setup() {
-    const loadingState = ref(null);
-    const characters = ref([]);
-    function fetchAllCharacters() {
-      loadingState.value = "loading";
-      axios
-        .get("https://rickandmortyapi.com/api/character")
-        .then((response) => {
-          setTimeout(() => {
-            loadingState.value = "success";
-            characters.value = response.data.results;
-          }, 1000);
-        });
-    }
-    fetchAllCharacters();
-    return { characters, loadingState };
-  },
   methods: {
     setOrderKey(key) {
       this.orderKey = key;
     },
   },
 };
+</script>
+
+<script setup>
+const loadingState = ref(null);
+const characters = ref([]);
+function fetchAllCharacters() {
+  loadingState.value = "loading";
+  axios.get("https://rickandmortyapi.com/api/character").then((response) => {
+    setTimeout(() => {
+      loadingState.value = "success";
+      characters.value = response.data.results;
+    }, 1000);
+  });
+}
+fetchAllCharacters();
+
+// return { characters, loadingState };
 </script>
 
 <style scoped>
