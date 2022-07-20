@@ -41,7 +41,7 @@
 </template>
 
 <script setup>
-import { useFetchResource } from "./fetchAllCharacters.js";
+import { useFetchResource } from "@/composables/fetchAllCharacters.js";
 
 const { locationsOrdered, setOrderKey, loadingLocations } = useFetchResource(
   "https://rickandmortyapi.com/api/location"
