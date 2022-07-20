@@ -40,32 +40,23 @@
   </div>
 </template>
 
-<script>
-import axios from "axios";
-import { ref } from "vue";
-import { orderBy } from "lodash";
-export default {
-  data() {
-    return {
-      orderKey: "id",
-    };
-  },
-  computed: {
-    charactersOrdered() {
-      return orderBy(this.characters, this.orderKey);
-    },
-  },
-  methods: {
-    setOrderKey(key) {
-      this.orderKey = key;
-    },
-  },
-};
-</script>
-
 <script setup>
+import axios from "axios";
+import { computed, ref } from "vue";
+import { orderBy } from "lodash";
+
 const loadingState = ref(null);
 const characters = ref([]);
+const orderKey = ref("id");
+
+const charactersOrdered = computed(() => {
+  return orderBy(characters.value, orderKey.value);
+});
+
+function setOrderKey(key) {
+  orderKey.value = key;
+}
+
 function fetchAllCharacters() {
   loadingState.value = "loading";
   axios.get("https://rickandmortyapi.com/api/character").then((response) => {
@@ -76,8 +67,6 @@ function fetchAllCharacters() {
   });
 }
 fetchAllCharacters();
-
-// return { characters, loadingState };
 </script>
 
 <style scoped>
