@@ -7,26 +7,45 @@
       </button>
       <button class="btn bg-orange-500" @click="setOrderKey('id')">Id</button>
     </div>
+    <h1>Locations</h1>
     <div class="m-auto container flex flex-wrap mt-10">
       <div
-        v-for="location in locationsOrdered"
+        v-for="location in locations"
         :key="location.id"
+        class="xl:w-1/5 lg:w-1/4 md:w-1/3 w-1/2 card"
+      >
+        <div class="card-inner">
+          <div class="content text-center mt-5">
+            <span class="header text-xl">{{ location.name }}</span>
+            <div class="text-center text-gray-500 text-sm">
+              <div class="">Type: {{ location.type }}</div>
+              <div>{{ location.dimension }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <h1>Characters</h1>
+    <div class="m-auto container flex flex-wrap mt-10">
+      <div
+        v-for="character in charactersOrdered"
+        :key="character.id"
         class="xl:w-1/5 lg:w-1/4 md:w-1/3 w-1/2 card"
       >
         <div class="card-inner">
           <div class="image">
             <img
-              :src="location.url"
+              :src="character.image"
               class="bg-gray-200"
               height="300"
               width="300"
             />
           </div>
           <div class="content text-center mt-5">
-            <span class="header text-xl">{{ location.name }}</span>
+            <span class="header text-xl">{{ character.name }}</span>
             <div class="text-center text-gray-500 text-sm">
-              <div class="">Type: {{ location.type }}</div>
-              <div>{{ location.dimension }}</div>
+              <div class="">Status: {{ character.status }}</div>
+              <div>{{ character.species }}</div>
             </div>
           </div>
         </div>
@@ -41,11 +60,24 @@
 </template>
 
 <script setup>
-import { useFetchResource } from "@/composables/fetchAllCharacters.js";
+import { useFetchResource } from "@/composables/useFetchResource.js";
+import { computed, ref } from "vue";
+import { orderBy } from "lodash";
 
-const { locationsOrdered, setOrderKey, loadingLocations } = useFetchResource(
-  "https://rickandmortyapi.com/api/location"
+const { results: characters } = useFetchResource(
+  "https://rickandmortyapi.com/api/character"
 );
+
+const charactersOrdered = computed(() => {
+  return orderBy(characters.value, orderKey.value);
+});
+const orderKey = ref("id");
+function setOrderKey(key) {
+  orderKey.value = key;
+}
+
+const { results: locations, loadingStatus: loadingLocations } =
+  useFetchResource("https://rickandmortyapi.com/api/location");
 </script>
 
 <style scoped>
