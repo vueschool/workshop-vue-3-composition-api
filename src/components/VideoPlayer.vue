@@ -24,7 +24,6 @@ const video = ref(null);
 const isPaused = ref(true);
 
 useGlobalEvent("keydown", (e) => {
-  console.log(e);
   if (e.key === " ") {
     e.preventDefault();
     playPause();
@@ -32,14 +31,11 @@ useGlobalEvent("keydown", (e) => {
 });
 
 onMounted(() => {
-  console.log(video);
-  video.value.play();
   isPaused.value = video.value?.paused;
 });
 
 const buttonClass = computed(() => {
-  console.log("calc", isPaused.value);
-  return "btn mr-4 " + isPaused.value ? "bg-blue-500" : "bg-red-500";
+  return "btn mr-4 " + (isPaused.value ? "bg-blue-500" : "bg-red-500");
 });
 
 const buttonLabel = computed(() => {

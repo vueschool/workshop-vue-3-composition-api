@@ -84,7 +84,11 @@ const { results: locations, loading: loadingLocations } = useFetchResource(
   "https://rickandmortyapi.com/api/location"
 );
 
-useGlobalEvent("keydown", () => locations.value.splice(0, 1));
+useGlobalEvent("keydown", (e) => {
+  if (e.key !== " ") {
+    locations.value.splice(0, 1);
+  }
+});
 </script>
 
 <style scoped>
