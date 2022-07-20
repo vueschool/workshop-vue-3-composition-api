@@ -56,6 +56,10 @@
       <span class="text-gray-500">Loading locations...</span>
       <img src="/spinner.svg" alt="loading" />
     </div>
+    <div v-if="loadingCharacters === 'loading'" class="loading">
+      <span class="text-gray-500">Loading characters...</span>
+      <img src="/spinner.svg" alt="loading" />
+    </div>
   </div>
 </template>
 
@@ -63,10 +67,10 @@
 import { useFetchResource } from "@/composables/useFetchResource.js";
 import { computed, ref } from "vue";
 import { orderBy } from "lodash";
+import { useGlobalEvent } from "@/use/useGlobalEvent.js";
 
-const { results: characters } = useFetchResource(
-  "https://rickandmortyapi.com/api/character"
-);
+const { results: characters, loadingStatus: loadingCharacters } =
+  useFetchResource("https://rickandmortyapi.com/api/character");
 
 const charactersOrdered = computed(() => {
   return orderBy(characters.value, orderKey.value);
@@ -76,8 +80,11 @@ function setOrderKey(key) {
   orderKey.value = key;
 }
 
-const { results: locations, loadingStatus: loadingLocations } =
-  useFetchResource("https://rickandmortyapi.com/api/location");
+const { results: locations, loading: loadingLocations } = useFetchResource(
+  "https://rickandmortyapi.com/api/location"
+);
+
+useGlobalEvent("keydown", () => locations.value.splice(0, 1));
 </script>
 
 <style scoped>
