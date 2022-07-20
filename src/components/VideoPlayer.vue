@@ -14,6 +14,7 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { computed } from "vue";
+import { useGlobalEvent } from "@/use/useGlobalEvent.js";
 
 defineProps({
   src: String,
@@ -22,7 +23,13 @@ defineProps({
 const video = ref(null);
 const isPaused = ref(true);
 
-console.log(video);
+useGlobalEvent("keydown", (e) => {
+  console.log(e);
+  if (e.key === " ") {
+    e.preventDefault();
+    playPause();
+  }
+});
 
 onMounted(() => {
   console.log(video);
