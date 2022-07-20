@@ -14,7 +14,7 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { computed } from "vue";
-import { useGlobalEvent } from "@/use/useGlobalEvent.js";
+import { useGlobalEvent } from "@/composables/useGlobalEvent.js";
 
 defineProps({
   src: String,

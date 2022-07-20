@@ -67,7 +67,7 @@
 import { useFetchResource } from "@/composables/useFetchResource.js";
 import { computed, ref } from "vue";
 import { orderBy } from "lodash";
-import { useGlobalEvent } from "@/use/useGlobalEvent.js";
+import { useGlobalEvent } from "@/composables/useGlobalEvent.js";
 
 const { results: characters, loadingStatus: loadingCharacters } =
   useFetchResource("https://rickandmortyapi.com/api/character");
@@ -85,6 +85,7 @@ const { results: locations, loading: loadingLocations } = useFetchResource(
 );
 
 useGlobalEvent("keydown", (e) => {
+  console.log("pressed", e);
   if (e.key !== " ") {
     locations.value.splice(0, 1);
   }
