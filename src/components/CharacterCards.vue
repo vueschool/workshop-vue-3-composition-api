@@ -7,8 +7,8 @@
       </button>
       <button class="btn bg-orange-500" @click="setOrderKey('id')">Id</button>
     </div>
-    <h1>Locations</h1>
-    <div class="m-auto container flex flex-wrap mt-10">
+    <h1 class="text-2xl text-center mt-5">Locations</h1>
+    <div class="m-auto container flex flex-wrap">
       <div
         v-for="location in locations"
         :key="location.id"
@@ -25,7 +25,7 @@
         </div>
       </div>
     </div>
-    <h1>Characters</h1>
+    <h1 class="text-2xl text-center mt-5">Characters</h1>
     <div class="m-auto container flex flex-wrap mt-10">
       <div
         v-for="character in charactersOrdered"

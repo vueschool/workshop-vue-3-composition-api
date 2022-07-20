@@ -2,7 +2,7 @@
   <div class="m-auto container flex justify-center flex-wrap mt-10">
     <div class="card-inner">
       <video ref="video" loop muted playsinline :src="src" width="600" />
-      <div class="content text-center mt-3">
+      <div v-if="video" class="content text-center mt-3">
         <button :class="buttonClass" @click="playPause()">
           {{ buttonLabel }}
         </button>
@@ -35,9 +35,8 @@ onMounted(() => {
 });
 
 const buttonClass = computed(() => {
-  return isPaused.value
-    ? `relative h-10 px-6 font-semibold rounded-md text-white mr-4 hover:bg-blue-500 bg-blue-700`
-    : `relative h-10 px-6 font-semibold rounded-md text-white mr-4 hover:bg-red-500 bg-red-700`;
+  const color = isPaused.value ? "blue" : "red";
+  return `relative h-10 px-6 font-semibold rounded-md text-white mr-4 hover:bg-${color}-500 bg-${color}-700`;
 });
 
 const buttonLabel = computed(() => {
