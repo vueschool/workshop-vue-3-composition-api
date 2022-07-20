@@ -2,29 +2,38 @@ import axios from "axios";
 import { computed, ref } from "vue";
 import { orderBy } from "lodash";
 
-export function useFetchAllCharacters() {
-  const loadingState = ref(null);
-  const characters = ref([]);
+/**
+ *
+ * @param {string} url
+ * @returns
+ */
+export function useFetchResource(url) {
+  const loadingLocations = ref(null);
+  const locations = ref([]);
   const orderKey = ref("id");
 
-  const charactersOrdered = computed(() => {
-    return orderBy(characters.value, orderKey.value);
+  const locationsOrdered = computed(() => {
+    return orderBy(locations.value, orderKey.value);
   });
 
   function setOrderKey(key) {
     orderKey.value = key;
   }
 
-  function fetchAllCharacters() {
-    loadingState.value = "loading";
-    axios.get("https://rickandmortyapi.com/api/character").then((response) => {
-      setTimeout(() => {
-        loadingState.value = "success";
-        characters.value = response.data.results;
-      }, 1000);
+  function fetchLocations() {
+    loadingLocations.value = "loading";
+    axios.get(url).then((response) => {
+      // setTimeout(() => {
+      loadingLocations.value = "success";
+      locations.value = response.data.results;
+      // }, 1000);
     });
   }
-  fetchAllCharacters();
+  fetchLocations();
 
-  return { charactersOrdered, setOrderKey, fetchAllCharacters };
+  setTimeout(() => {
+    console.log(locationsOrdered.value);
+  }, 1000);
+
+  return { locationsOrdered, loadingLocations, setOrderKey, fetchLocations };
 }

@@ -9,41 +9,43 @@
     </div>
     <div class="m-auto container flex flex-wrap mt-10">
       <div
-        v-for="character in charactersOrdered"
-        :key="character.id"
+        v-for="location in locationsOrdered"
+        :key="location.id"
         class="xl:w-1/5 lg:w-1/4 md:w-1/3 w-1/2 card"
       >
         <div class="card-inner">
           <div class="image">
             <img
-              :src="character.image"
+              :src="location.url"
               class="bg-gray-200"
               height="300"
               width="300"
             />
           </div>
           <div class="content text-center mt-5">
-            <span class="header text-xl">{{ character.name }}</span>
+            <span class="header text-xl">{{ location.name }}</span>
             <div class="text-center text-gray-500 text-sm">
-              <div class="">Status: {{ character.status }}</div>
-              <div>{{ character.species }}</div>
+              <div class="">Type: {{ location.type }}</div>
+              <div>{{ location.dimension }}</div>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <div v-if="loadingState === 'loading'" class="loading">
-      <span class="text-gray-500">Loading characters...</span>
+    <div v-if="loadingLocations === 'loading'" class="loading">
+      <span class="text-gray-500">Loading locations...</span>
       <img src="/spinner.svg" alt="loading" />
     </div>
   </div>
 </template>
 
 <script setup>
-import { useFetchAllCharacters } from "./fetchAllCharacters.js";
+import { useFetchResource } from "./fetchAllCharacters.js";
 
-const { charactersOrdered, setOrderKey } = useFetchAllCharacters();
+const { locationsOrdered, setOrderKey, loadingLocations } = useFetchResource(
+  "https://rickandmortyapi.com/api/location"
+);
 </script>
 
 <style scoped>
