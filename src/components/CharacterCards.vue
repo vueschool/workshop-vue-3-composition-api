@@ -42,7 +42,7 @@
 
 <script>
 import axios from "axios";
-import orderBy from "lodash/orderby";
+import { orderBy } from "lodash";
 export default {
   data() {
     return {
